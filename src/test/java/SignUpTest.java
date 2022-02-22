@@ -169,8 +169,8 @@ public class SignUpTest {
     public void sentMoreThanFiveDigitsToZipCodeTest() throws FileNotFoundException{
         //Open Zip code page
         driver.get("https://sharelane.com/cgi-bin/register.py");
-        //Input 5 digits zip
-        driver.findElement(By.name("zip_code")).sendKeys("12345");
+        //Input 6 digits zip
+        driver.findElement(By.name("zip_code")).sendKeys("123456");
         //Click the 'Continue'
         driver.findElement(By.cssSelector("[value=Continue]")).click();
         try{
