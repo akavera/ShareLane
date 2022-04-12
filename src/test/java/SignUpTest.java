@@ -1,3 +1,4 @@
+import com.github.javafaker.Faker;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
@@ -11,6 +12,7 @@ import java.io.FileNotFoundException;
 
 public class SignUpTest {
 
+    //private static final String baseUrl = "https://sharelane.com/cgi-bin/register.py;
     WebDriver driver;
 
     @BeforeMethod
@@ -21,6 +23,8 @@ public class SignUpTest {
 
     @Test
     public void sendFiveDigitsToZipCodeFieldTest(){
+        Faker faker = new Faker();
+        String zipCade = faker.address().zipCode();
         //Open Zip code page
         driver.get("https://sharelane.com/cgi-bin/register.py");
         //Input 5 digits zip
