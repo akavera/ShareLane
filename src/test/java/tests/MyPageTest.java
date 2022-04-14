@@ -1,9 +1,10 @@
-import org.openqa.selenium.WebDriver;
+package tests;
+
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.testng.annotations.BeforeMethod;
 
-public class MyPageTest {
-    WebDriver driver;
+public class MyPageTest extends BaseTest{
+
 
     @BeforeMethod
     public void setUp(){

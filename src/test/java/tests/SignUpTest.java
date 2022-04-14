@@ -1,38 +1,25 @@
+package tests;
+
 import com.github.javafaker.Faker;
 import org.openqa.selenium.By;
-import org.openqa.selenium.NoSuchElementException;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.chrome.ChromeDriver;
 import org.testng.Assert;
-import org.testng.annotations.AfterMethod;
-import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
+import staticdata.WebUrls;
+import utilities.GenerateFakeMessage;
 
-import java.io.FileNotFoundException;
 
-public class SignUpTest {
-
-    private static final String BASE_URL = "https://sharelane.com/cgi-bin/register.py";
-    WebDriver driver;
-
-    @BeforeMethod
-    public void setUp(){
-        System.setProperty("webdriver.chrome.driver","src/test/resources/chromedriver");
-        driver = new ChromeDriver();
-    }
+public class SignUpTest extends BaseTest{
 
     @Test
     public void sendFiveDigitsToZipCodeFieldTest(){
-        Faker faker = new Faker();
-        sendZipCode("12345");
+        sendZipCode(GenerateFakeMessage.getValidZipCode());
         //Check the 'Register' button is shown
         boolean isRegisterButtonDisplayed = driver.findElement(By.cssSelector("[value=Register]")).isDisplayed();
         Assert.assertTrue(isRegisterButtonDisplayed, "Register button isn't shown");
     }
     @Test
     public void sendFourDigitsToZipCodeFieldTest(){
-        Faker faker = new Faker();
-        sendZipCode("1234");
+        sendZipCode(GenerateFakeMessage.getFourDigitsZipCode());
         //Check error message is shown
         boolean isErrorMessageShown = driver.findElement(By.className("error_message")).isDisplayed();
         //Assert.fail(); в catch
@@ -40,8 +27,7 @@ public class SignUpTest {
     }
     @Test
     public void sendSignInFormTest(){
-        Faker faker = new Faker();
-        sendZipCode("12345");
+        sendZipCode(GenerateFakeMessage.getValidZipCode());
         //Input data into fields
         driver.findElement(By.name("first_name")).sendKeys("Vera");
         driver.findElement(By.name("last_name")).sendKeys("Vasilkevich");
@@ -56,8 +42,7 @@ public class SignUpTest {
     }
     @Test
     public void fillFirstNameFieldWithSpaceTest(){
-        Faker faker = new Faker();
-        sendZipCode("12345");
+        sendZipCode(GenerateFakeMessage.getValidZipCode());
         //Input data into fields
         driver.findElement(By.name("first_name")).sendKeys(" ");
         driver.findElement(By.name("last_name")).sendKeys("Vasilkevich");
@@ -72,8 +57,7 @@ public class SignUpTest {
     }
     @Test
     public void fillLastNameFieldWithSpaceTest(){
-        Faker faker = new Faker();
-        sendZipCode("12345");
+        sendZipCode(GenerateFakeMessage.getValidZipCode());
         //Input data into fields
         driver.findElement(By.name("first_name")).sendKeys("Vera");
         driver.findElement(By.name("last_name")).sendKeys(" ");
@@ -88,8 +72,7 @@ public class SignUpTest {
     }
     @Test
     public void fillPasswordFieldWithInvalidDataTest(){
-        Faker faker = new Faker();
-        sendZipCode("12345");
+        sendZipCode(GenerateFakeMessage.getValidZipCode());
         //Input data into fields
         driver.findElement(By.name("first_name")).sendKeys("Vera");
         driver.findElement(By.name("last_name")).sendKeys(" ");
@@ -104,8 +87,7 @@ public class SignUpTest {
     }
     @Test
     public void fillPasswordAndConfirmPasswordFieldsWithSpacesTest(){
-        Faker faker = new Faker();
-        sendZipCode("12345");
+        sendZipCode(GenerateFakeMessage.getValidZipCode());
         //Input data into fields
         driver.findElement(By.name("first_name")).sendKeys("Vera");
         driver.findElement(By.name("last_name")).sendKeys(" Vasilkevich");
@@ -121,8 +103,7 @@ public class SignUpTest {
 
     @Test
     public void fieldsPasswordAndConfirmPasswordDoNotMatchTest(){
-        Faker faker = new Faker();
-        sendZipCode("12345");
+        sendZipCode(GenerateFakeMessage.getValidZipCode());
         //Input data into fields
         driver.findElement(By.name("first_name")).sendKeys("Vera");
         driver.findElement(By.name("last_name")).sendKeys(" ");
@@ -137,8 +118,7 @@ public class SignUpTest {
     }
 //    @Test
 //    public void sentMoreThanFiveDigitsToZipCodeTest(){
-//        Faker faker = new Faker();
-//        sendZipCode("123456");
+//        sendZipCode(GenerateFakeMessage.getValidZipCode);
 //        try{
 //            boolean isErrorMessageShown = driver.findElement(By.className("error_message")).isDisplayed();
 //            Assert.assertTrue(isErrorMessageShown,"Check Message");
@@ -147,14 +127,11 @@ public class SignUpTest {
 //        }
 //    }
     private void sendZipCode(String zipCode){
-        driver.get(BASE_URL);
+        driver.get(WebUrls.SHARELANE_REGISTER_URL);
         driver.findElement(By.name("zip_code")).sendKeys(zipCode);
         driver.findElement(By.cssSelector("[value=Continue]")).click();
     }
 
 
-    @AfterMethod
-        public void tearDown(){
-        driver.quit();//закрыть браузер
-    }
+
 }
